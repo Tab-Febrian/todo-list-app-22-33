@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/auth_controller.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
+import 'package:todo_list_app/Widgets/reusable_textfield.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Login Page",
+          "Login",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -28,42 +29,31 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 16),
+              const SizedBox(height: 15),
               const Icon(
-                Icons.person_pin_circle,
-                size: 100,
+                Icons.person,
+                size: 120,
                 color: Colors.blueAccent,
               ),
-              const SizedBox(height: 16),
               const Text(
-                'Welcome!',
+                'Selamat Datang!',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 35),
-              TextField(
+              const SizedBox(height: 30),
+              ReusableTextField(
+                label: "Username",
                 controller: loginController.usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
               ),
               const SizedBox(height: 16),
-              TextField(
+              ReusableTextField(
+                label: "Password",
                 controller: loginController.passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
               ),
               const SizedBox(height: 35),
               ReusableButton(
