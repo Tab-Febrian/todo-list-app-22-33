@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_list_app/Controllers/auth_controller.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
 
 class LoginPage extends StatelessWidget {
@@ -6,8 +8,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+    final AuthController loginController = Get.put(AuthController());
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +46,7 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 35),
               TextField(
-                controller: usernameController,
+                controller: loginController.usernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(
@@ -55,7 +56,7 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextField(
-                controller: passwordController,
+                controller: loginController.passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -69,26 +70,7 @@ class LoginPage extends StatelessWidget {
                 text: 'Login',
                 color: Colors.blueAccent,
                 onPressed: () {
-                  final username = usernameController.text;
-                  final password = passwordController.text;
-
-                  if (username == 'admin' && password == '123') {
-                    // Get.offAllNamed('/home');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Login berhasil!'),
-                        duration: Duration(milliseconds: 1500),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Username atau password salah.'),
-                        duration: Duration(milliseconds: 1500),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  }
+                  loginController.login();
                 },
               ),
             ],
