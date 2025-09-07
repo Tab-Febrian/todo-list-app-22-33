@@ -18,7 +18,7 @@ class AuthController extends GetxController {
         colorText: Colors.white,
         margin: EdgeInsets.all(10),
       );
-      // Get.offAllNamed('/home'); 
+      Get.offAllNamed('/nav');
     } else {
       Get.snackbar(
         'Login Gagal!',
