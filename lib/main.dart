@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app/Controllers/todo_controller.dart';
 import 'package:todo_list_app/Routes/pages.dart';
 import 'package:todo_list_app/Routes/routes.dart';
 
 void main() {
+  Get.put(TodoController());
   runApp(const MyApp());
 }
 

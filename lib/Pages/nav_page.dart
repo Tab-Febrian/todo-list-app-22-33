@@ -23,7 +23,7 @@ class NavPage extends StatelessWidget {
           currentIndex: navController.currentIndex.value,
           onTap: navController.changePage,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.add_task),label: 'Add Todo'),
+            BottomNavigationBarItem(icon: Icon(Icons.add_task),label: 'Todo'),
             BottomNavigationBarItem(icon: Icon(Icons.history),label: 'History'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
