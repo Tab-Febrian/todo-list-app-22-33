@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app/Routes/routes.dart';
 
 class AuthController extends GetxController {
   final TextEditingController usernameController = TextEditingController();
@@ -18,7 +19,7 @@ class AuthController extends GetxController {
         colorText: Colors.white,
         margin: EdgeInsets.all(10),
       );
-      Get.offAllNamed('/nav');
+      Get.offAllNamed(AppRoutes.nav);
     } else {
       Get.snackbar(
         'Login Gagal!',

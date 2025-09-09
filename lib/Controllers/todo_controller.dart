@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Model/todo_model.dart';
+import 'package:todo_list_app/Routes/routes.dart';
 
 class TodoController extends GetxController {
   var todos = <Todo>[].obs;
@@ -25,10 +26,8 @@ class TodoController extends GetxController {
     ));
     todos.refresh();
 
-    // Balik ke halaman Todo List (NavPage)
-    Get.offAllNamed('/nav');
+    Get.offAllNamed(AppRoutes.nav);
 
-    // Snackbar sukses
     Get.snackbar(
       'Berhasil',
       'Todo berhasil ditambahkan',
