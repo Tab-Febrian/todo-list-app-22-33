@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -33,14 +33,14 @@ class LoginPage extends StatelessWidget {
               const Icon(
                 Icons.person,
                 size: 120,
-                color: Colors.blueAccent,
+                color: Colors.teal,
               ),
               const Text(
                 'Selamat Datang!',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
+                  color: Colors.teal,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -53,12 +53,12 @@ class LoginPage extends StatelessWidget {
               ReusableTextField(
                 label: "Password",
                 controller: loginController.passwordController,
-                obscureText: true,
+                isPassword: true,
               ),
               const SizedBox(height: 35),
               ReusableButton(
                 text: 'Login',
-                color: Colors.blueAccent,
+                color: Colors.teal,
                 onPressed: () {
                   loginController.login();
                 },

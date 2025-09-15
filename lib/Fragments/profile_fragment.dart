@@ -35,14 +35,14 @@ class ProfileFragment extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               for (var user in users)
                 ProfileCard(
                   name: user["name"]!,
@@ -50,7 +50,6 @@ class ProfileFragment extends StatelessWidget {
                   kelas: user["kelas"]!,
                   imageUrl: user["imageUrl"]!,
                 ),
-              const SizedBox(height: 16),
               Container(
                 margin: const EdgeInsets.all(16),
                 child: ReusableButton(

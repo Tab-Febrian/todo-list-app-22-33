@@ -20,12 +20,17 @@ class HistoryFragment extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
       ),
       body: Obx(() {
         final completed = todoController.completedTodos;
         if (completed.isEmpty) {
-          return const Center(child: Text("Belum ada todo yang selesai"));
+          return const Center(
+            child: Text(
+              "Belum ada todo yang selesai!",
+              style: TextStyle(fontSize: 15, color: Colors.grey),
+            ),
+          );
         }
         return ListView.builder(
           itemCount: completed.length,

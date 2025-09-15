@@ -21,14 +21,14 @@ class TodoFragment extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
       ),
       body: Obx(() {
         if (todoController.todos.isEmpty) {
           return const Center(
             child: Text(
-              "Belum ada todo",
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+              "Belum ada todo!",
+              style: TextStyle(fontSize: 15, color: Colors.grey),
             ),
           );
         }
@@ -49,7 +49,7 @@ class TodoFragment extends StatelessWidget {
         );
       }),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
         onPressed: () =>  Get.toNamed(AppRoutes.todoAdd),
         child: const Icon(Icons.add, color: Colors.white),
       ),

@@ -25,7 +25,8 @@ class AddTodoPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -71,7 +72,7 @@ class AddTodoPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 9, 90, 28),
+                  backgroundColor: Colors.teal,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
