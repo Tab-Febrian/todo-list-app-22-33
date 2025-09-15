@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Model/todo_model.dart';
 import 'package:todo_list_app/Routes/routes.dart';
+import 'package:todo_list_app/Widgets/reusable_dialog.dart'; 
 
 class TodoController extends GetxController {
   var todos = <Todo>[].obs;
@@ -43,15 +44,27 @@ class TodoController extends GetxController {
     todos.refresh();
   }
 
-  void deleteTodo(int index) {
-    todos.removeAt(index);
-    Get.snackbar(
-      'Berhasil Menghapus',
-      'Todo berhasil dihapus',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: const Color.fromARGB(255, 255, 0, 0),
-      colorText: Colors.white,
-      margin: const EdgeInsets.all(10),
+  void deleteTodo(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ReusableDialog(
+          title: "Konfirmasi Hapus",
+          content: const Text("Apakah Anda yakin ingin menghapus to-do ini?"),
+          onConfirm: () {
+            todos.removeAt(index);
+            Get.snackbar(
+              'Berhasil Menghapus',
+              'Todo berhasil dihapus',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+              colorText: Colors.white,
+              margin: const EdgeInsets.all(10),
+            );
+            todos.refresh();
+          },
+        );
+      },
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
+import 'package:todo_list_app/Widgets/reusable_textfield.dart';
 
 class AddTodoPage extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
@@ -33,21 +34,9 @@ class AddTodoPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: "Judul",
-                border: OutlineInputBorder(),
-              ),
-            ),
+            ReusableTextField(controller: _titleController, label: "Judul"),
             const SizedBox(height: 12),
-            TextField(
-              controller: _descController,
-              decoration: const InputDecoration(
-                labelText: "Deskripsi",
-                border: OutlineInputBorder(),
-              ),
-            ),
+            ReusableTextField(controller: _descController, label: "Deskripsi"),
             const SizedBox(height: 12),
             const Text(
               "Kategori",

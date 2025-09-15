@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
 import 'package:todo_list_app/Widgets/profile_card.dart';
+import 'package:todo_list_app/Widgets/reusable_dialog.dart'; // Import the reusable dialog
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     final users = [
       {
         "name": "Riffat Arfa Pramana",
@@ -56,7 +56,18 @@ class ProfileFragment extends StatelessWidget {
                   text: "Logout",
                   color: const Color.fromARGB(255, 255, 68, 68),
                   onPressed: () {
-                    Get.offAllNamed(AppRoutes.login);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ReusableDialog(
+                          title: "Konfirmasi Logout",
+                          content: const Text("Apakah Anda yakin ingin keluar?"),
+                          onConfirm: () {
+                            Get.offAllNamed(AppRoutes.login);
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               ),

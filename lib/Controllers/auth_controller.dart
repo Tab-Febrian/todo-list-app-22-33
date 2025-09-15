@@ -14,7 +14,7 @@ class AuthController extends GetxController {
       Get.snackbar(
         'Login Berhasil!',
         'Selamat datang kembali!',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.white,
         margin: EdgeInsets.all(10),

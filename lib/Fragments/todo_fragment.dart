@@ -43,7 +43,7 @@ class TodoFragment extends StatelessWidget {
               category: todo.category,
               isDone: todo.isDone,
               onToggle: () => todoController.toggleDone(index),
-              onDelete: () => todoController.deleteTodo(index),
+              onDelete: () => todoController.deleteTodo(context, index),
             );
           },
         );
