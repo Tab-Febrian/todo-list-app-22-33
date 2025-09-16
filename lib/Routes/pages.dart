@@ -38,7 +38,8 @@ class AppPages {
     ),
      GetPage(
       name: AppRoutes.todoAdd,
-      page: () => AddTodoPage()
+      page: () => AddTodoPage(),
+      binding: TodoBinding(),
     ),
   ];
 }
