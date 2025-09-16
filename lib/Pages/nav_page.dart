@@ -6,7 +6,7 @@ import 'package:todo_list_app/Fragments/profile_fragment.dart';
 import 'package:todo_list_app/Fragments/todo_fragment.dart';
 
 class NavPage extends StatelessWidget {
-  final NavController navController = Get.put(NavController());
+  final navController = Get.find<NavController>();
 
   final List<Widget> pages = [
     TodoFragment(),
