@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
 import 'package:todo_list_app/Widgets/profile_card.dart';
-import 'package:todo_list_app/Widgets/reusable_dialog.dart'; // Import the reusable dialog
+import 'package:todo_list_app/Widgets/reusable_dialog.dart'; 
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({super.key});

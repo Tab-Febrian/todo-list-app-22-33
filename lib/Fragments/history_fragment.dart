@@ -23,8 +23,7 @@ class HistoryFragment extends StatelessWidget {
         backgroundColor: Colors.teal,
       ),
       body: Obx(() {
-        final completed = todoController.completedTodos;
-        if (completed.isEmpty) {
+        if (todoController.completedTodos.isEmpty) {
           return const Center(
             child: Text(
               "Belum ada todo yang selesai!",
@@ -33,15 +32,28 @@ class HistoryFragment extends StatelessWidget {
           );
         }
         return ListView.builder(
-          itemCount: completed.length,
+          itemCount: todoController.completedTodos.length,
           itemBuilder: (context, index) {
-            final todo = completed[index];
+            final todo = todoController.completedTodos[index];
             return TodoCard(
               title: todo.title,
               description: todo.description,
               category: todo.category,
               isDone: true,
-              showActions: false,
+              onToggle: () => todoController.revertTodo(context,index),
+              trailingWidget: Row( 
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.refresh, color: Colors.blue),
+                    onPressed: () => todoController.revertTodo(context, index),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () => todoController.deleteHistoryTodo(context, index),
+                  ),
+                ],
+              ),
             );
           },
         );

@@ -42,15 +42,21 @@ class TodoFragment extends StatelessWidget {
               description: todo.description,
               category: todo.category,
               isDone: todo.isDone,
-              onToggle: () => todoController.toggleDone(index),
-              onDelete: () => todoController.deleteTodo(context, index),
+              trailingWidget: Checkbox(
+                value: todo.isDone,
+                onChanged: (value) {
+                  if (value == true) {
+                    todoController.toggleDone(index);
+                  }
+                },
+              ),
             );
           },
         );
       }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal,
-        onPressed: () =>  Get.toNamed(AppRoutes.todoAdd),
+        onPressed: () => Get.toNamed(AppRoutes.todoAdd),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
