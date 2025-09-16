@@ -9,7 +9,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController loginController = Get.put(AuthController());
+    final loginController = Get.find<AuthController>();
 
     return Scaffold(
       appBar: AppBar(
