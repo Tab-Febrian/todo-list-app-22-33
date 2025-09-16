@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
 import 'package:todo_list_app/Widgets/todo_card.dart';
+import 'package:todo_list_app/Widgets/reusable_text.dart';
 
 class HistoryFragment extends StatelessWidget {
   const HistoryFragment({super.key});
@@ -25,8 +26,8 @@ class HistoryFragment extends StatelessWidget {
       body: Obx(() {
         if (todoController.completedTodos.isEmpty) {
           return const Center(
-            child: Text(
-              "Belum ada todo yang selesai!",
+            child: ReusableText(
+              text: "Belum ada todo yang selesai!",
               style: TextStyle(fontSize: 15, color: Colors.grey),
             ),
           );
@@ -40,8 +41,8 @@ class HistoryFragment extends StatelessWidget {
               description: todo.description,
               category: todo.category,
               isDone: true,
-              onToggle: () => todoController.revertTodo(context,index),
-              trailingWidget: Row( 
+              onToggle: () => todoController.revertTodo(context, index),
+              trailingWidget: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
@@ -50,7 +51,8 @@ class HistoryFragment extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => todoController.deleteHistoryTodo(context, index),
+                    onPressed: () =>
+                        todoController.deleteHistoryTodo(context, index),
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
+import 'package:todo_list_app/Widgets/reusable_text.dart';
 import 'package:todo_list_app/Widgets/reusable_textfield.dart';
 
 class AddTodoPage extends StatelessWidget {
@@ -38,8 +39,8 @@ class AddTodoPage extends StatelessWidget {
             const SizedBox(height: 12),
             ReusableTextField(controller: _descController, label: "Deskripsi"),
             const SizedBox(height: 12),
-            const Text(
-              "Kategori",
+            const ReusableText(
+              text: "Kategori",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Obx(
