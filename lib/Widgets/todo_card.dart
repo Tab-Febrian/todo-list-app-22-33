@@ -7,7 +7,7 @@ class TodoCard extends StatelessWidget {
   final bool isDone;
   final VoidCallback? onToggle;
   final VoidCallback? onDelete;
-  final bool showActions;
+  final Widget? trailingWidget; 
 
   const TodoCard({
     super.key,
@@ -17,7 +17,7 @@ class TodoCard extends StatelessWidget {
     this.isDone = false,
     this.onToggle,
     this.onDelete,
-    this.showActions = true,
+    this.trailingWidget, 
   });
 
   @override
@@ -32,22 +32,8 @@ class TodoCard extends StatelessWidget {
             color: isDone ? Colors.grey : Colors.black,
           ),
         ),
-        subtitle: Text("$description $category"),
-        trailing: showActions
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Checkbox(
-                    value: isDone,
-                    onChanged: (_) => onToggle?.call(),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: onDelete,
-                  ),
-                ],
-              )
-            : null,
+        subtitle: Text("$description — $category"),
+        trailing: trailingWidget, 
       ),
     );
   }

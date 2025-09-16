@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
 import 'package:todo_list_app/Widgets/profile_card.dart';
+import 'package:todo_list_app/Widgets/reusable_dialog.dart'; 
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     final users = [
       {
         "name": "Riffat Arfa Pramana",
@@ -35,14 +35,14 @@ class ProfileFragment extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               for (var user in users)
                 ProfileCard(
                   name: user["name"]!,
@@ -50,14 +50,24 @@ class ProfileFragment extends StatelessWidget {
                   kelas: user["kelas"]!,
                   imageUrl: user["imageUrl"]!,
                 ),
-              const SizedBox(height: 16),
               Container(
                 margin: const EdgeInsets.all(16),
                 child: ReusableButton(
                   text: "Logout",
                   color: const Color.fromARGB(255, 255, 68, 68),
                   onPressed: () {
-                    Get.offAllNamed(AppRoutes.login);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ReusableDialog(
+                          title: "Konfirmasi Logout",
+                          content: const Text("Apakah Anda yakin ingin keluar?"),
+                          onConfirm: () {
+                            Get.offAllNamed(AppRoutes.login);
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               ),

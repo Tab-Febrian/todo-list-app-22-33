@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
+import 'package:todo_list_app/Widgets/reusable_textfield.dart';
 
 class AddTodoPage extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
@@ -25,28 +26,17 @@ class AddTodoPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.teal,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: "Judul",
-                border: OutlineInputBorder(),
-              ),
-            ),
+            ReusableTextField(controller: _titleController, label: "Judul"),
             const SizedBox(height: 12),
-            TextField(
-              controller: _descController,
-              decoration: const InputDecoration(
-                labelText: "Deskripsi",
-                border: OutlineInputBorder(),
-              ),
-            ),
+            ReusableTextField(controller: _descController, label: "Deskripsi"),
             const SizedBox(height: 12),
             const Text(
               "Kategori",
@@ -71,7 +61,7 @@ class AddTodoPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 9, 90, 28),
+                  backgroundColor: Colors.teal,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {

@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
 
-class ReusableTextField extends StatelessWidget {
+class ReusableTextField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
-  final bool obscureText;
+  final bool isPassword;
 
   const ReusableTextField({
-    super.key,
+    Key? key,
     required this.label,
     required this.controller,
-    this.obscureText = false,
-  });
+    this.isPassword = false,
+  }) : super(key: key);
+
+  @override
+  _ReusableTextFieldState createState() => _ReusableTextFieldState();
+}
+
+class _ReusableTextFieldState extends State<ReusableTextField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
-      obscureText: obscureText,
+      controller: widget.controller,
+      obscureText: _obscureText,
       decoration: InputDecoration(
-        labelText: label,
+        labelText: widget.label,
         labelStyle: const TextStyle(
           color: Colors.black,
         ),
@@ -36,6 +49,18 @@ class ReusableTextField extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(8.0),
         ),
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              )
+            : null,
       ),
     );
   }
