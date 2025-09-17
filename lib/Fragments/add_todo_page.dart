@@ -66,6 +66,7 @@ class AddTodoPage extends StatelessWidget {
                 color: Colors.teal,
                 onPressed: () {
                   todoController.addTodo(
+                    context,
                     _titleController.text,
                     _descController.text,
                     _selectedCategory.value,
