@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
 import 'package:todo_list_app/Widgets/reusable_text.dart';
 import 'package:todo_list_app/Widgets/reusable_textfield.dart';
+import 'package:todo_list_app/Widgets/reusable_button.dart';
 
 class AddTodoPage extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
@@ -60,11 +61,9 @@ class AddTodoPage extends StatelessWidget {
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
+              child: ReusableButton(
+                text: "Simpan",
+                color: Colors.teal,
                 onPressed: () {
                   todoController.addTodo(
                     _titleController.text,
@@ -72,10 +71,6 @@ class AddTodoPage extends StatelessWidget {
                     _selectedCategory.value,
                   );
                 },
-                child: const Text(
-                  "Simpan",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
               ),
             ),
           ],
