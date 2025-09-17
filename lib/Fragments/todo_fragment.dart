@@ -46,7 +46,7 @@ class TodoFragment extends StatelessWidget {
                 value: todo.isDone,
                 onChanged: (value) {
                   if (value == true) {
-                    todoController.toggleDone(index);
+                    todoController.toggleDone(context, index);
                   }
                 },
               ),
