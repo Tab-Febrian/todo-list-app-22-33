@@ -5,12 +5,11 @@ import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/todo_card.dart';
 
 class TodoFragment extends StatelessWidget {
-  const TodoFragment({super.key});
+  TodoFragment({super.key});
+  final todoController = Get.find<TodoController>();
 
   @override
   Widget build(BuildContext context) {
-    final todoController = Get.find<TodoController>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_list_app/Routes/routes.dart';
+import 'package:todo_list_app/Controllers/auth_controller.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
 import 'package:todo_list_app/Widgets/profile_card.dart';
 import 'package:todo_list_app/Widgets/reusable_dialog.dart'; 
 
 class ProfileFragment extends StatelessWidget {
-  const ProfileFragment({super.key});
+  ProfileFragment({super.key});
+  final profilecontroller = Get.find<AuthController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class ProfileFragment extends StatelessWidget {
                           title: "Konfirmasi Logout",
                           content: const Text("Apakah Anda yakin ingin keluar?"),
                           onConfirm: () {
-                            Get.offAllNamed(AppRoutes.login);
+                            profilecontroller.logout();
                           },
                         );
                       },

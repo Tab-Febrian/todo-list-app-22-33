@@ -5,4 +5,5 @@ class AppRoutes {
   static const history = '/history';
   static const profile = '/profile';
   static const todoAdd = '/todo-add';
+  static const splashscreen = '/splashscreen';
 }
