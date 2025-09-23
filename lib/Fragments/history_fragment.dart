@@ -5,11 +5,11 @@ import 'package:todo_list_app/Widgets/todo_card.dart';
 import 'package:todo_list_app/Widgets/reusable_text.dart';
 
 class HistoryFragment extends StatelessWidget {
-  const HistoryFragment({super.key});
+  HistoryFragment({super.key});
+  final todoController = Get.find<TodoController>();
 
   @override
   Widget build(BuildContext context) {
-    final todoController = Get.find<TodoController>();
 
     return Scaffold(
       appBar: AppBar(
