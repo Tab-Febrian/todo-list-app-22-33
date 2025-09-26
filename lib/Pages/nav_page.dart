@@ -11,7 +11,7 @@ class NavPage extends StatelessWidget {
   final List<Widget> pages = [
     TodoFragment(),
     HistoryFragment(),
-    ProfileFragment()
+    ProfileFragment(),
   ];
 
   @override
@@ -22,10 +22,24 @@ class NavPage extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: navController.currentIndex.value,
           onTap: navController.changePage,
+          selectedItemColor: Colors.teal, 
+          unselectedItemColor: Colors.grey, 
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          elevation: 8,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.add_task),label: 'Todo'),
-            BottomNavigationBarItem(icon: Icon(Icons.history),label: 'History'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_task),
+              label: 'Todo',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
           ],
         ),
       ),

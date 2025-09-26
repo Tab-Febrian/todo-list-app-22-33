@@ -4,12 +4,16 @@ class ReusableTextField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final bool isPassword;
+  final bool readOnly;       // ✅ tambahan
+  final VoidCallback? onTap; // ✅ tambahan
 
   const ReusableTextField({
     Key? key,
     required this.label,
     required this.controller,
     this.isPassword = false,
+    this.readOnly = false,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -30,6 +34,8 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
     return TextField(
       controller: widget.controller,
       obscureText: _obscureText,
+      readOnly: widget.readOnly,    // ✅ support readOnly
+      onTap: widget.onTap,          // ✅ support onTap
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: const TextStyle(

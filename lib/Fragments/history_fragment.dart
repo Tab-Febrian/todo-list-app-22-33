@@ -10,7 +10,6 @@ class HistoryFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -41,6 +40,8 @@ class HistoryFragment extends StatelessWidget {
               description: todo.description,
               category: todo.category,
               isDone: true,
+              startTime: todo.startTime,  
+              endTime: todo.endTime,      
               onToggle: () => todoController.revertTodo(context, index),
               trailingWidget: Row(
                 mainAxisSize: MainAxisSize.min,
