@@ -16,7 +16,7 @@ class AppPages {
   static final pages = [
     GetPage(
       name: AppRoutes.login,
-      page: () => const LoginPage(),
+      page: () => LoginPage(),
       binding: AuthBinding(),
     ),
     GetPage(

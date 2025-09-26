@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
 import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/todo_card.dart';
+import 'package:todo_list_app/Widgets/reusable_text.dart';
 
 class TodoFragment extends StatelessWidget {
   TodoFragment({super.key});
@@ -12,8 +13,8 @@ class TodoFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Todo List",
+        title: const ReusableText(
+          text: "Todo List",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -21,13 +22,18 @@ class TodoFragment extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.teal,
+        elevation: 4,
       ),
       body: Obx(() {
         if (todoController.todos.isEmpty) {
           return const Center(
-            child: Text(
-              "Belum ada todo!",
-              style: TextStyle(fontSize: 15, color: Colors.grey),
+            child: ReusableText(
+              text: "Belum ada todo!",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+              ),
             ),
           );
         }
@@ -41,8 +47,11 @@ class TodoFragment extends StatelessWidget {
               description: todo.description,
               category: todo.category,
               isDone: todo.isDone,
+              startTime: todo.startTime, 
+              endTime: todo.endTime, 
               trailingWidget: Checkbox(
                 value: todo.isDone,
+                activeColor: Colors.teal,
                 onChanged: (value) {
                   if (value == true) {
                     todoController.toggleDone(context, index);
