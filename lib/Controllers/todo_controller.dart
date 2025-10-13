@@ -7,9 +7,17 @@ import 'package:todo_list_app/Widgets/reusable_dialog.dart';
 import 'package:todo_list_app/Widgets/reusable_text.dart';
 
 class TodoController extends GetxController {
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
+  final startTimeController = TextEditingController();
+  final endTimeController = TextEditingController();
+  final selectedCategory = "Sekolah".obs;
+
   var todos = <Todo>[].obs;
   var completedTodos = <Todo>[].obs;
   final DBHelper _dbHelper = DBHelper();
+
+  var isMobile = true.obs;
 
   @override
   void onInit() {
@@ -31,7 +39,10 @@ class TodoController extends GetxController {
     String? startTime,
     String? endTime,
   ) {
-    if (title.isEmpty || description.isEmpty || startTime == null || endTime == null) {
+    if (title.isEmpty ||
+        description.isEmpty ||
+        startTime == null ||
+        endTime == null) {
       Get.snackbar(
         'Gagal',
         'Semua field wajib diisi',
@@ -63,7 +74,10 @@ class TodoController extends GetxController {
             await _dbHelper.insertTodo(newTodo);
             await loadTodos();
 
+            clearForm();
+
             Get.offAllNamed(AppRoutes.nav);
+
             Get.snackbar(
               'Berhasil',
               'Todo berhasil ditambahkan',
@@ -90,6 +104,7 @@ class TodoController extends GetxController {
           onConfirm: () async {
             final todo = todos.removeAt(index);
             todo.isDone = true;
+
             await _dbHelper.updateTodoDoneStatus(todo.id!, true);
             completedTodos.add(todo);
 
@@ -111,65 +126,69 @@ class TodoController extends GetxController {
   }
 
   void editTodo(
-  BuildContext context,
-  int index,
-  String newTitle,
-  String newDescription,
-  String newCategory,
-  String? newStartTime,
-  String? newEndTime,
-) {
-  if (index < 0 || index >= todos.length) return;
-  if (newTitle.isEmpty || newDescription.isEmpty || newStartTime == null || newEndTime == null) {
-    Get.snackbar(
-      'Gagal',
-      'Semua field harus diisi',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-      margin: const EdgeInsets.all(10),
-    );
-    return;
-  }
-
-  showDialog(
-    context: context,
-    builder: (context) {
-      return ReusableDialog(
-        title: "Konfirmasi Update",
-        content: const ReusableText(
-          text: "Apakah Anda yakin ingin mengubah to-do ini?",
-        ),
-        onConfirm: () async {
-          final todo = todos[index];
-          final updatedTodo = Todo(
-            id: todo.id,
-            title: newTitle,
-            description: newDescription,
-            category: newCategory,
-            startTime: newStartTime,
-            endTime: newEndTime,
-            isDone: todo.isDone,
-          );
-
-          await _dbHelper.updateTodo(updatedTodo);
-          await loadTodos();
-
-          Get.back(); // kembali ke halaman sebelumnya (edit)
-          Get.snackbar(
-            'Berhasil',
-            'Todo berhasil diupdate',
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-            margin: const EdgeInsets.all(10),
-          );
-        },
+    BuildContext context,
+    int index,
+    String newTitle,
+    String newDescription,
+    String newCategory,
+    String? newStartTime,
+    String? newEndTime,
+  ) {
+    if (index < 0 || index >= todos.length) return;
+    if (newTitle.isEmpty ||
+        newDescription.isEmpty ||
+        newStartTime == null ||
+        newEndTime == null) {
+      Get.snackbar(
+        'Gagal',
+        'Semua field harus diisi',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        margin: const EdgeInsets.all(10),
       );
-    },
-  );
-}
+      return;
+    }
 
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ReusableDialog(
+          title: "Konfirmasi Update",
+          content: const ReusableText(
+            text: "Apakah Anda yakin ingin mengubah to-do ini?",
+          ),
+          onConfirm: () async {
+            final todo = todos[index];
+            final updatedTodo = Todo(
+              id: todo.id,
+              title: newTitle,
+              description: newDescription,
+              category: newCategory,
+              startTime: newStartTime,
+              endTime: newEndTime,
+              isDone: todo.isDone,
+            );
+
+            await _dbHelper.updateTodo(updatedTodo);
+            await loadTodos();
+
+            clearForm();
+
+            Get.back();
+            Get.snackbar(
+              'Berhasil',
+              'Todo berhasil diupdate',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.green,
+              colorText: Colors.white,
+              margin: const EdgeInsets.all(10),
+            );
+          },
+        );
+      },
+    );
+  }
 
   void revertTodo(BuildContext context, int index) {
     showDialog(
@@ -183,6 +202,7 @@ class TodoController extends GetxController {
           onConfirm: () async {
             final todo = completedTodos.removeAt(index);
             todo.isDone = false;
+
             await _dbHelper.updateTodoDoneStatus(todo.id!, false);
             todos.add(todo);
 
@@ -224,7 +244,7 @@ class TodoController extends GetxController {
               'Berhasil Menghapus',
               'Todo berhasil dihapus dari history',
               snackPosition: SnackPosition.TOP,
-              backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+              backgroundColor: Colors.red,
               colorText: Colors.white,
               margin: const EdgeInsets.all(10),
             );
@@ -232,5 +252,17 @@ class TodoController extends GetxController {
         );
       },
     );
+  }
+
+  void clearForm() {
+    titleController.clear();
+    descController.clear();
+    startTimeController.clear();
+    endTimeController.clear();
+    selectedCategory.value = "Sekolah";
+  }
+
+  void updateLayout(BoxConstraints constraints) {
+    isMobile.value = constraints.maxWidth < 600;
   }
 }

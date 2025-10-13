@@ -44,4 +44,9 @@ void logout() async {
     passwordController.dispose();
     super.onClose();
   }
+
+  var isMobile = true.obs;
+  void updateLayout(BoxConstraints constraints) {
+    isMobile.value = constraints.maxWidth < 600;
+  }
 }

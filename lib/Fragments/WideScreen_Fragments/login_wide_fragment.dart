@@ -6,8 +6,8 @@ import 'package:todo_list_app/Widgets/reusable_textfield.dart';
 import 'package:todo_list_app/Widgets/reusable_card.dart';
 import 'package:todo_list_app/Widgets/reusable_text.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class LoginWide extends StatelessWidget {
+  LoginWide({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const ReusableText(
-                  text: 'Welcome!',
+                  text: 'Welcome! (Wide)',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
