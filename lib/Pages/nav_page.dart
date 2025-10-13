@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/nav_controller.dart';
-import 'package:todo_list_app/Fragments/history_fragment.dart';
-import 'package:todo_list_app/Fragments/profile_fragment.dart';
-import 'package:todo_list_app/Fragments/todo_fragment.dart';
+import 'package:todo_list_app/Pages/history_screen.dart';
+import 'package:todo_list_app/Pages/profile_screen.dart';
+import 'package:todo_list_app/Pages/todo_screen.dart';
 
 class NavPage extends StatelessWidget {
   final navController = Get.find<NavController>();
 
   final List<Widget> pages = [
-    TodoFragment(),
-    HistoryFragment(),
-    ProfileFragment(),
+    TodoScreen(),
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
   @override

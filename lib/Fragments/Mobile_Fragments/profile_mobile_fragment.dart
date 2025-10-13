@@ -5,8 +5,8 @@ import 'package:todo_list_app/Widgets/reusable_button.dart';
 import 'package:todo_list_app/Widgets/profile_card.dart';
 import 'package:todo_list_app/Widgets/reusable_dialog.dart'; 
 
-class ProfileFragment extends StatelessWidget {
-  ProfileFragment({super.key});
+class ProfileMobile extends StatelessWidget {
+  ProfileMobile({super.key});
   final profilecontroller = Get.find<AuthController>();
 
 
@@ -30,7 +30,7 @@ class ProfileFragment extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Profile",
+          "Profile (Mobile)",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

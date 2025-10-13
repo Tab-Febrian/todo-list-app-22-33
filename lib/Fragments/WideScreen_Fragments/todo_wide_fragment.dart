@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
+import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/todo_card.dart';
 import 'package:todo_list_app/Widgets/reusable_text.dart';
 
-class HistoryFragment extends StatelessWidget {
-  HistoryFragment({super.key});
+class TodoWide extends StatelessWidget {
+  TodoWide({super.key});
   final todoController = Get.find<TodoController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "History",
+        title: const ReusableText(
+          text: "Todo List (Wide)",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -21,39 +22,46 @@ class HistoryFragment extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.teal,
+        elevation: 4,
       ),
       body: Obx(() {
-        if (todoController.completedTodos.isEmpty) {
+        if (todoController.todos.isEmpty) {
           return const Center(
             child: ReusableText(
-              text: "Belum ada todo yang selesai!",
+              text: "Belum ada todo!",
               style: TextStyle(fontSize: 15, color: Colors.grey),
             ),
           );
         }
         return ListView.builder(
-          itemCount: todoController.completedTodos.length,
+          padding: const EdgeInsets.all(12),
+          itemCount: todoController.todos.length,
           itemBuilder: (context, index) {
-            final todo = todoController.completedTodos[index];
+            final todo = todoController.todos[index];
             return TodoCard(
               title: todo.title,
               description: todo.description,
               category: todo.category,
-              isDone: true,
-              startTime: todo.startTime,  
-              endTime: todo.endTime,      
-              onToggle: () => todoController.revertTodo(context, index),
+              isDone: todo.isDone,
+              startTime: todo.startTime,
+              endTime: todo.endTime,
               trailingWidget: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.refresh, color: Colors.blue),
-                    onPressed: () => todoController.revertTodo(context, index),
+                    icon: const Icon(Icons.edit, color: Colors.blue),
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.todoEdit, arguments: todo);
+                    },
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () =>
-                        todoController.deleteHistoryTodo(context, index),
+                  Checkbox(
+                    value: todo.isDone,
+                    activeColor: Colors.teal,
+                    onChanged: (value) {
+                      if (value == true) {
+                        todoController.toggleDone(context, index);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -61,6 +69,11 @@ class HistoryFragment extends StatelessWidget {
           },
         );
       }),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal,
+        onPressed: () => Get.toNamed(AppRoutes.todoAdd),
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

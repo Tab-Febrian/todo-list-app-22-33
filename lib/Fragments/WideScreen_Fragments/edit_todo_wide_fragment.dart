@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app/Controllers/todo_controller.dart';
+import 'package:todo_list_app/Model/todo_model.dart';
 import 'package:todo_list_app/Widgets/reusable_text.dart';
 import 'package:todo_list_app/Widgets/reusable_textfield.dart';
 import 'package:todo_list_app/Widgets/reusable_button.dart';
 
-class AddTodoPage extends StatelessWidget {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descController = TextEditingController();
-  final TextEditingController _startTimeController = TextEditingController();
-  final TextEditingController _endTimeController = TextEditingController();
+class EditTodoWide extends StatelessWidget {
+  final Todo todo;
+  EditTodoWide({super.key, required this.todo});
 
   final List<String> _categories = ["Sekolah", "Pekerjaan", "Pribadi"];
-  final RxString _selectedCategory = "Sekolah".obs;
-
-  AddTodoPage({super.key});
 
   Future<void> _pickTime(
       BuildContext context, TextEditingController controller) async {
-    final TimeOfDay? picked =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
-
-    if (picked != null) {
-      controller.text = picked.format(context);
-    }
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) controller.text = picked.format(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final todoController = Get.find<TodoController>();
+    todoController.titleController.text = todo.title;
+    todoController.descController.text = todo.description;
+    todoController.startTimeController.text = todo.startTime ?? "";
+    todoController.endTimeController.text = todo.endTime ?? "";
+    todoController.selectedCategory.value = todo.category;
 
     return Scaffold(
-      backgroundColor: Colors.teal[100],
       appBar: AppBar(
         title: const Text(
-          "Add To Do",
+          "Edit Todo (Wide)",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -42,12 +41,9 @@ class AddTodoPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.teal,
-        centerTitle: true,
-        elevation: 4,
-        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -57,81 +53,77 @@ class AddTodoPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ReusableTextField(
-                  controller: _titleController,
+                  controller: todoController.titleController,
                   label: "Judul",
                 ),
                 const SizedBox(height: 16),
                 ReusableTextField(
-                  controller: _descController,
+                  controller: todoController.descController,
                   label: "Deskripsi",
                 ),
                 const SizedBox(height: 16),
                 const ReusableText(
                   text: "Kategori",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Obx(
                   () => Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.grey.shade400),
                       color: Colors.white,
                     ),
                     child: DropdownButton<String>(
-                      value: _selectedCategory.value,
+                      value: todoController.selectedCategory.value,
                       isExpanded: true,
                       underline: const SizedBox(),
                       items: _categories
                           .map(
-                            (cat) => DropdownMenuItem(
-                              value: cat,
-                              child: Text(cat),
-                            ),
+                            (cat) =>
+                                DropdownMenuItem(value: cat, child: Text(cat)),
                           )
                           .toList(),
                       onChanged: (val) {
-                        if (val != null) _selectedCategory.value = val;
+                        if (val != null) {
+                          todoController.selectedCategory.value = val;
+                        }
                       },
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
                 ReusableTextField(
-                  controller: _startTimeController,
+                  controller: todoController.startTimeController,
                   label: "Waktu Mulai",
                   readOnly: true,
-                  onTap: () => _pickTime(context, _startTimeController),
+                  onTap: () => _pickTime(context, todoController.startTimeController),
                 ),
                 const SizedBox(height: 16),
                 ReusableTextField(
-                  controller: _endTimeController,
+                  controller: todoController.endTimeController,
                   label: "Waktu Selesai",
                   readOnly: true,
-                  onTap: () => _pickTime(context, _endTimeController),
+                  onTap: () => _pickTime(context, todoController.endTimeController),
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   child: ReusableButton(
-                    text: "Simpan",
+                    text: "Update",
                     color: Colors.teal,
                     onPressed: () {
-                      todoController.addTodo(
+                      todoController.editTodo(
                         context,
-                        _titleController.text,
-                        _descController.text,
-                        _selectedCategory.value,
-                        _startTimeController.text,
-                        _endTimeController.text,
+                        todoController.todos.indexWhere((t) => t.id == todo.id),
+                        todoController.titleController.text,
+                        todoController.descController.text,
+                        todoController.selectedCategory.value,
+                        todoController.startTimeController.text,
+                        todoController.endTimeController.text,
                       );
                     },
                   ),
