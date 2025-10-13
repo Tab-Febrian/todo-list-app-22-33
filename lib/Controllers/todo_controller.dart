@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app/Database/db_helper.dart';
 import 'package:todo_list_app/Model/todo_model.dart';
 import 'package:todo_list_app/Routes/routes.dart';
 import 'package:todo_list_app/Widgets/reusable_dialog.dart';
@@ -8,34 +9,18 @@ import 'package:todo_list_app/Widgets/reusable_text.dart';
 class TodoController extends GetxController {
   var todos = <Todo>[].obs;
   var completedTodos = <Todo>[].obs;
+  final DBHelper _dbHelper = DBHelper();
 
-  void revertTodo(BuildContext context, int index) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ReusableDialog(
-          title: "Konfirmasi Kembalikan",
-          content: const ReusableText(
-            text: "Anda yakin ingin mengembalikan to-do ini ke Todo List?",
-          ),
-          onConfirm: () {
-            final todoToRevert = completedTodos.removeAt(index);
-            todoToRevert.isDone = false;
-            todos.add(todoToRevert);
-            todos.refresh();
-            completedTodos.refresh();
-            Get.snackbar(
-              'Berhasil Mengembalikan',
-              'To-do berhasil dikembalikan ke Todo List',
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.blue,
-              colorText: Colors.white,
-              margin: const EdgeInsets.all(10),
-            );
-          },
-        );
-      },
-    );
+  @override
+  void onInit() {
+    super.onInit();
+    loadTodos();
+  }
+
+  Future<void> loadTodos() async {
+    final allTodos = await _dbHelper.getTodos();
+    todos.value = allTodos.where((t) => !t.isDone).toList();
+    completedTodos.value = allTodos.where((t) => t.isDone).toList();
   }
 
   void addTodo(
@@ -46,10 +31,10 @@ class TodoController extends GetxController {
     String? startTime,
     String? endTime,
   ) {
-    if (title.isEmpty) {
+    if (title.isEmpty || description.isEmpty || startTime == null || endTime == null) {
       Get.snackbar(
         'Gagal',
-        'Judul tidak boleh kosong',
+        'Semua field wajib diisi',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -57,39 +42,7 @@ class TodoController extends GetxController {
       );
       return;
     }
-    if (description.isEmpty) {
-      Get.snackbar(
-        'Gagal',
-        'Deskripsi tidak boleh kosong',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        margin: const EdgeInsets.all(10),
-      );
-      return;
-    }
-    if (startTime == null || startTime.isEmpty) {
-      Get.snackbar(
-        'Gagal',
-        'Waktu mulai harus diisi',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        margin: const EdgeInsets.all(10),
-      );
-      return;
-    }
-    if (endTime == null || endTime.isEmpty) {
-      Get.snackbar(
-        'Gagal',
-        'Waktu selesai harus diisi',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        margin: const EdgeInsets.all(10),
-      );
-      return;
-    }
+
     showDialog(
       context: context,
       builder: (context) {
@@ -98,15 +51,17 @@ class TodoController extends GetxController {
           content: const ReusableText(
             text: "Apakah Anda yakin ingin menambahkan to-do ini?",
           ),
-          onConfirm: () {
-            todos.add(Todo(
+          onConfirm: () async {
+            final newTodo = Todo(
               title: title,
               description: description,
               category: category,
               startTime: startTime,
               endTime: endTime,
-            ));
-            todos.refresh();
+            );
+
+            await _dbHelper.insertTodo(newTodo);
+            await loadTodos();
 
             Get.offAllNamed(AppRoutes.nav);
             Get.snackbar(
@@ -132,10 +87,11 @@ class TodoController extends GetxController {
           content: const ReusableText(
             text: "Apakah Anda yakin ingin memindahkan to-do ini ke History?",
           ),
-          onConfirm: () {
-            final todoToMove = todos.removeAt(index);
-            todoToMove.isDone = true;
-            completedTodos.add(todoToMove);
+          onConfirm: () async {
+            final todo = todos.removeAt(index);
+            todo.isDone = true;
+            await _dbHelper.updateTodoDoneStatus(todo.id!, true);
+            completedTodos.add(todo);
 
             todos.refresh();
             completedTodos.refresh();
@@ -154,6 +110,99 @@ class TodoController extends GetxController {
     );
   }
 
+  void editTodo(
+  BuildContext context,
+  int index,
+  String newTitle,
+  String newDescription,
+  String newCategory,
+  String? newStartTime,
+  String? newEndTime,
+) {
+  if (index < 0 || index >= todos.length) return;
+  if (newTitle.isEmpty || newDescription.isEmpty || newStartTime == null || newEndTime == null) {
+    Get.snackbar(
+      'Gagal',
+      'Semua field harus diisi',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      margin: const EdgeInsets.all(10),
+    );
+    return;
+  }
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return ReusableDialog(
+        title: "Konfirmasi Update",
+        content: const ReusableText(
+          text: "Apakah Anda yakin ingin mengubah to-do ini?",
+        ),
+        onConfirm: () async {
+          final todo = todos[index];
+          final updatedTodo = Todo(
+            id: todo.id,
+            title: newTitle,
+            description: newDescription,
+            category: newCategory,
+            startTime: newStartTime,
+            endTime: newEndTime,
+            isDone: todo.isDone,
+          );
+
+          await _dbHelper.updateTodo(updatedTodo);
+          await loadTodos();
+
+          Get.back(); // kembali ke halaman sebelumnya (edit)
+          Get.snackbar(
+            'Berhasil',
+            'Todo berhasil diupdate',
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+            margin: const EdgeInsets.all(10),
+          );
+        },
+      );
+    },
+  );
+}
+
+
+  void revertTodo(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ReusableDialog(
+          title: "Konfirmasi Kembalikan",
+          content: const ReusableText(
+            text: "Anda yakin ingin mengembalikan to-do ini ke Todo List?",
+          ),
+          onConfirm: () async {
+            final todo = completedTodos.removeAt(index);
+            todo.isDone = false;
+            await _dbHelper.updateTodoDoneStatus(todo.id!, false);
+            todos.add(todo);
+
+            todos.refresh();
+            completedTodos.refresh();
+
+            Get.snackbar(
+              'Berhasil Mengembalikan',
+              'To-do berhasil dikembalikan ke Todo List',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.blue,
+              colorText: Colors.white,
+              margin: const EdgeInsets.all(10),
+            );
+          },
+        );
+      },
+    );
+  }
+
   void deleteHistoryTodo(BuildContext context, int index) {
     showDialog(
       context: context,
@@ -163,8 +212,14 @@ class TodoController extends GetxController {
           content: const ReusableText(
             text: "Anda yakin ingin menghapus to-do ini dari history?",
           ),
-          onConfirm: () {
-            completedTodos.removeAt(index);
+          onConfirm: () async {
+            final todo = completedTodos.removeAt(index);
+            if (todo.id != null) {
+              await _dbHelper.deleteTodo(todo.id!);
+            }
+
+            completedTodos.refresh();
+
             Get.snackbar(
               'Berhasil Menghapus',
               'Todo berhasil dihapus dari history',
@@ -173,7 +228,6 @@ class TodoController extends GetxController {
               colorText: Colors.white,
               margin: const EdgeInsets.all(10),
             );
-            completedTodos.refresh();
           },
         );
       },
