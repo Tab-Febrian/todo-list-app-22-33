@@ -29,11 +29,7 @@ class TodoFragment extends StatelessWidget {
           return const Center(
             child: ReusableText(
               text: "Belum ada todo!",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 15, color: Colors.grey),
             ),
           );
         }
@@ -47,16 +43,27 @@ class TodoFragment extends StatelessWidget {
               description: todo.description,
               category: todo.category,
               isDone: todo.isDone,
-              startTime: todo.startTime, 
-              endTime: todo.endTime, 
-              trailingWidget: Checkbox(
-                value: todo.isDone,
-                activeColor: Colors.teal,
-                onChanged: (value) {
-                  if (value == true) {
-                    todoController.toggleDone(context, index);
-                  }
-                },
+              startTime: todo.startTime,
+              endTime: todo.endTime,
+              trailingWidget: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.blue),
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.todoEdit, arguments: todo);
+                    },
+                  ),
+                  Checkbox(
+                    value: todo.isDone,
+                    activeColor: Colors.teal,
+                    onChanged: (value) {
+                      if (value == true) {
+                        todoController.toggleDone(context, index);
+                      }
+                    },
+                  ),
+                ],
               ),
             );
           },

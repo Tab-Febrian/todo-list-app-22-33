@@ -32,7 +32,7 @@ class SplashscreenPage extends StatelessWidget {
               child: const Icon(
                 Icons.check_circle_outline,
                 size: 80,
-                color: Colors.blue,
+                color: Colors.teal,
               ),
             ),
             const SizedBox(height: 30),

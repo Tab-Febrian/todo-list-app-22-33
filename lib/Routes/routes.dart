@@ -6,4 +6,5 @@ class AppRoutes {
   static const profile = '/profile';
   static const todoAdd = '/todo-add';
   static const splashscreen = '/splashscreen';
+  static const todoEdit = '/todo-edit';
 }

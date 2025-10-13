@@ -4,6 +4,7 @@ import 'package:todo_list_app/Bindings/nav_binding.dart';
 import 'package:todo_list_app/Bindings/splashscreen_bindings.dart';
 import 'package:todo_list_app/Bindings/todo_binding.dart';
 import 'package:todo_list_app/Fragments/add_todo_page.dart';
+import 'package:todo_list_app/Fragments/edit_todo_page.dart';
 import 'package:todo_list_app/Fragments/history_fragment.dart';
 import 'package:todo_list_app/Fragments/profile_fragment.dart';
 import 'package:todo_list_app/Fragments/todo_fragment.dart';
@@ -11,6 +12,7 @@ import 'package:todo_list_app/Pages/login_page.dart';
 import 'package:todo_list_app/Pages/nav_page.dart';
 import 'package:todo_list_app/Pages/splashscreen_page.dart';
 import 'package:todo_list_app/Routes/routes.dart';
+import 'package:todo_list_app/Fragments/edit_todo_page.dart';
 
 class AppPages {
   static final pages = [
@@ -19,11 +21,7 @@ class AppPages {
       page: () => LoginPage(),
       binding: AuthBinding(),
     ),
-    GetPage(
-      name: AppRoutes.nav,
-      page: () => NavPage(),
-      binding: NavBinding(),
-    ),
+    GetPage(name: AppRoutes.nav, page: () => NavPage(), binding: NavBinding()),
     GetPage(
       name: AppRoutes.todo,
       page: () => TodoFragment(),
@@ -34,11 +32,8 @@ class AppPages {
       page: () => HistoryFragment(),
       binding: TodoBinding(),
     ),
+    GetPage(name: AppRoutes.profile, page: () => ProfileFragment()),
     GetPage(
-      name: AppRoutes.profile,
-      page: () => ProfileFragment(),
-    ),
-     GetPage(
       name: AppRoutes.todoAdd,
       page: () => AddTodoPage(),
       binding: TodoBinding(),
@@ -47,6 +42,11 @@ class AppPages {
       name: AppRoutes.splashscreen,
       page: () => SplashscreenPage(),
       binding: SplashcreenBindings(),
+    ),
+    GetPage(
+      name: AppRoutes.todoEdit,
+      page: () => EditTodoPage(todo: Get.arguments),
+      binding: TodoBinding(),
     ),
   ];
 }
