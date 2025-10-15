@@ -31,34 +31,42 @@ class HistoryWide extends StatelessWidget {
             ),
           );
         }
-        return ListView.builder(
-          itemCount: todoController.completedTodos.length,
-          itemBuilder: (context, index) {
-            final todo = todoController.completedTodos[index];
-            return TodoCard(
-              title: todo.title,
-              description: todo.description,
-              category: todo.category,
-              isDone: true,
-              startTime: todo.startTime,  
-              endTime: todo.endTime,      
-              onToggle: () => todoController.revertTodo(context, index),
-              trailingWidget: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.refresh, color: Colors.blue),
-                    onPressed: () => todoController.revertTodo(context, index),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () =>
-                        todoController.deleteHistoryTodo(context, index),
-                  ),
-                ],
-              ),
-            );
-          },
+        return Padding(
+          padding: const EdgeInsets.all(12),
+          child: GridView.builder(
+            itemCount: todoController.completedTodos.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemBuilder: (context, index) {
+              final todo = todoController.completedTodos[index];
+              return TodoCard(
+                title: todo.title,
+                description: todo.description,
+                category: todo.category,
+                isDone: true,
+                startTime: todo.startTime,
+                endTime: todo.endTime,
+                onToggle: () => todoController.revertTodo(context, index),
+                trailingWidget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.refresh, color: Colors.blue),
+                      onPressed: () => todoController.revertTodo(context, index),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => todoController.deleteHistoryTodo(context, index),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         );
       }),
     );

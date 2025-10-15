@@ -22,23 +22,23 @@ class ProfileCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      margin: const EdgeInsets.all(6),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 50,
+              radius: 36,
               backgroundImage:
                   imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
               backgroundColor: Colors.grey[300],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Text(
               name,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Colors.teal,
               ),
@@ -47,11 +47,11 @@ class ProfileCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               "Absen: $absen",
-              style: const TextStyle(fontSize: 16, color: Colors.black54),
+              style: const TextStyle(fontSize: 14, color: Colors.black54),
             ),
             Text(
               "Kelas: $kelas",
-              style: const TextStyle(fontSize: 16, color: Colors.black54),
+              style: const TextStyle(fontSize: 14, color: Colors.black54),
             ),
           ],
         ),

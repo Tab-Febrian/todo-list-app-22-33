@@ -18,43 +18,61 @@ class LoginWide extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: ReusableCard(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Icon(
-                  Icons.person,
-                  size: 100,
-                  color: Colors.teal,
-                ),
-                const SizedBox(height: 10),
-                const ReusableText(
-                  text: 'Welcome! (Wide)',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Left icon
+                  const Padding(
+                    padding: EdgeInsets.only(right: 24.0),
+                    child: Icon(
+                      Icons.person,
+                      size: 100,
+                      color: Colors.teal,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                ReusableTextField(
-                  label: "Username",
-                  controller: loginController.usernameController,
-                ),
-                const SizedBox(height: 16),
-                ReusableTextField(
-                  label: "Password",
-                  controller: loginController.passwordController,
-                  isPassword: true,
-                ),
-                const SizedBox(height: 30),
-                ReusableButton(
-                  text: 'Login',
-                  color: Colors.teal,
-                  onPressed: () {
-                    loginController.login();
-                  },
-                ),
-              ],
+                  // Right: form
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const ReusableText(
+                          text: 'Welcome! (Wide)',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        ReusableTextField(
+                          label: "Username",
+                          controller: loginController.usernameController,
+                        ),
+                        const SizedBox(height: 16),
+                        ReusableTextField(
+                          label: "Password",
+                          controller: loginController.passwordController,
+                          isPassword: true,
+                        ),
+                        const SizedBox(height: 30),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ReusableButton(
+                            text: 'Login',
+                            color: Colors.teal,
+                            onPressed: () {
+                              loginController.login();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

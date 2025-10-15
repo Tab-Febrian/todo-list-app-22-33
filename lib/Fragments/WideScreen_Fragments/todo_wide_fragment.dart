@@ -33,40 +33,44 @@ class TodoWide extends StatelessWidget {
             ),
           );
         }
-        return ListView.builder(
+        return Padding(
           padding: const EdgeInsets.all(12),
-          itemCount: todoController.todos.length,
-          itemBuilder: (context, index) {
-            final todo = todoController.todos[index];
-            return TodoCard(
-              title: todo.title,
-              description: todo.description,
-              category: todo.category,
-              isDone: todo.isDone,
-              startTime: todo.startTime,
-              endTime: todo.endTime,
-              trailingWidget: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.blue),
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.todoEdit, arguments: todo);
-                    },
-                  ),
-                  Checkbox(
-                    value: todo.isDone,
-                    activeColor: Colors.teal,
-                    onChanged: (value) {
-                      if (value == true) {
-                        todoController.toggleDone(context, index);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
+          child: GridView.builder(
+            itemCount: todoController.todos.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemBuilder: (context, index) {
+              final todo = todoController.todos[index];
+              return TodoCard(
+                title: todo.title,
+                description: todo.description,
+                category: todo.category,
+                isDone: todo.isDone,
+                startTime: todo.startTime,
+                endTime: todo.endTime,
+                trailingWidget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () => Get.toNamed(AppRoutes.todoEdit, arguments: todo),
+                    ),
+                    Checkbox(
+                      value: todo.isDone,
+                      activeColor: Colors.teal,
+                      onChanged: (value) {
+                        if (value == true) todoController.toggleDone(context, index);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         );
       }),
       floatingActionButton: FloatingActionButton(
