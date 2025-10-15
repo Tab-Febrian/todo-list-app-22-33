@@ -40,50 +40,56 @@ class ProfileWide extends StatelessWidget {
         ),
         backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 20,
-                runSpacing: 20,
-                children: [
-                  for (var user in users)
-                    ProfileCard(
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: GridView.builder(
+                  itemCount: users.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.4,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemBuilder: (context, idx) {
+                    final user = users[idx];
+                    return ProfileCard(
                       name: user["name"]!,
                       absen: user["absen"]!,
                       kelas: user["kelas"]!,
                       imageUrl: user["imageUrl"]!,
-                    ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Container(
-                margin: const EdgeInsets.all(16),
-                child: ReusableButton(
-                  text: "Logout",
-                  color: const Color.fromARGB(255, 255, 68, 68),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ReusableDialog(
-                          title: "Konfirmasi Logout",
-                          content:
-                              const Text("Apakah Anda yakin ingin keluar?"),
-                          onConfirm: () {
-                            profilecontroller.logout();
-                          },
-                        );
-                      },
                     );
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              margin: const EdgeInsets.all(16),
+              child: ReusableButton(
+                text: "Logout",
+                color: const Color.fromARGB(255, 255, 68, 68),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ReusableDialog(
+                        title: "Konfirmasi Logout",
+                        content: const Text("Apakah Anda yakin ingin keluar?"),
+                        onConfirm: () {
+                          profilecontroller.logout();
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
